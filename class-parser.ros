@@ -1,0 +1,30 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  ;;#+quicklisp (ql:quickload '() :silent t)
+  )
+
+(defun read-u4 (stream)
+  (let (bytes)
+    (dotimes (n 4 bytes)
+      (push (read-byte stream nil :eof) bytes))))
+
+(defun read-magic (stream)
+  (let ((bytes (read-u4 stream)))
+    (values bytes (and (every (lambda (e) (typep e '(unsigned-byte 8))) bytes)
+                       (loop
+                         :for b1 :in bytes
+                         :for b2 :in (reverse '(#xCA #xFE #xBA #xBE))
+                         :always (= b1 b2))))))
+
+(defpackage :ros.script.class-parser.3733376269
+  (:use :cl))
+(in-package :ros.script.class-parser.3733376269)
+
+(defun main (&rest argv)
+  (declare (ignorable argv)))
+;;; vim: set ft=lisp lisp:
