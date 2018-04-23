@@ -43,7 +43,23 @@ exec ros -Q -- $0 "$@"
         (major-ver (as-integer (read-u2 stream))))
     (cons major-ver minor-ver)))
 
+(defun read-constant-pool (stream)
+  (let ((count (as-integer (read-u2 stream))))
+    count))
+
+(defun read-class-file (pathname)
+  (with-open-file (in pathname
+                      :direction :input
+                      :element-type '(unsigned-byte 8))
+    (multiple-value-bind (magic correct?)
+        (read-magic in)
+      (if (not correct?)
+          (error "invalid magic!")
+          (format t "(magic . version): ([~{~x~^ ~}] . ~s)~%"
+                  magic (read-version in))))
+    (read-constant-pool in)))
 
 (defun main (&rest argv)
-  (declare (ignorable argv)))
+  (declare (ignorable argv))
+  (read-class-file (first argv)))
 ;;; vim: set ft=lisp lisp:
