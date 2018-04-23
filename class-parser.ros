@@ -20,6 +20,13 @@ exec ros -Q -- $0 "$@"
       (push (read-byte stream nil :eof) bytes))
     (nreverse bytes)))
 
+(defun as-integer (bytes)
+  (let ((i 0))
+    (print bytes)
+    (dotimes (n (length bytes) i)
+      (let ((offset (* n 8)))
+        (print (nth n bytes))
+        (setf (ldb (byte 8 offset) i) (nth (- (length bytes) n 1) bytes))))))
 
 (defun read-magic (stream)
   (let ((bytes (read-u4 stream)))
