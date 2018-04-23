@@ -36,6 +36,11 @@ exec ros -Q -- $0 "$@"
                          :for b2 :in '(#xCA #xFE #xBA #xBE)
                          :always (= b1 b2))))))
 
+(defun read-version (stream)
+  (let ((minor-ver (as-integer (read-u2 stream)))
+        (major-ver (as-integer (read-u2 stream))))
+    (cons major-ver minor-ver)))
+
 (defpackage :ros.script.class-parser.3733376269
   (:use :cl))
 (in-package :ros.script.class-parser.3733376269)
