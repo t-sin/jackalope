@@ -10,15 +10,17 @@ exec ros -Q -- $0 "$@"
 
 (defun read-u4 (stream)
   (let (bytes)
-    (dotimes (n 4 bytes)
-      (push (read-byte stream nil :eof) bytes))))
+    (dotimes (n 4)
+      (push (read-byte stream nil :eof) bytes))
+    (nreverse bytes)))
+
 
 (defun read-magic (stream)
   (let ((bytes (read-u4 stream)))
     (values bytes (and (every (lambda (e) (typep e '(unsigned-byte 8))) bytes)
                        (loop
                          :for b1 :in bytes
-                         :for b2 :in (reverse '(#xCA #xFE #xBA #xBE))
+                         :for b2 :in '(#xCA #xFE #xBA #xBE)
                          :always (= b1 b2))))))
 
 (defpackage :ros.script.class-parser.3733376269
