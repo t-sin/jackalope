@@ -8,6 +8,10 @@ exec ros -Q -- $0 "$@"
   ;;#+quicklisp (ql:quickload '() :silent t)
   )
 
+(defpackage :ros.script.class-parser.3733376269
+  (:use :cl))
+(in-package :ros.script.class-parser.3733376269)
+
 (defun read-u4 (stream)
   (let (bytes)
     (dotimes (n 4)
@@ -39,9 +43,6 @@ exec ros -Q -- $0 "$@"
         (major-ver (as-integer (read-u2 stream))))
     (cons major-ver minor-ver)))
 
-(defpackage :ros.script.class-parser.3733376269
-  (:use :cl))
-(in-package :ros.script.class-parser.3733376269)
 
 (defun main (&rest argv)
   (declare (ignorable argv)))
