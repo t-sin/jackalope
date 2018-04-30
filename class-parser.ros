@@ -47,6 +47,14 @@ exec ros -Q -- $0 "$@"
   (let ((count (as-integer (read-u2 stream))))
     count))
 
+(defun read-access-flats (stream))
+(defun read-this-class (stream))
+(defun read-super-class (stream))
+(defun read-interfaces (stream))
+(defun read-fields (stream))
+(defun read-methods (stream))
+(defun read-attributes (stream))
+
 (defun read-class-file (pathname)
   (with-open-file (in pathname
                       :direction :input
