@@ -12,6 +12,9 @@ exec ros -Q -- $0 "$@"
   (:use :cl))
 (in-package :ros.script.class-parser.3733376269)
 
+;;;
+;;; utilities
+
 (defun read-u4 (stream)
   (let (bytes)
     (dotimes (n 4)
@@ -30,6 +33,9 @@ exec ros -Q -- $0 "$@"
       (let ((offset (* n 8)))
         (setf (ldb (byte 8 offset) i) (nth (- (length bytes) n 1) bytes))))))
 
+;;;
+;;; read files
+
 (defun read-magic (stream)
   (let ((bytes (read-u4 stream)))
     (values bytes (and (every (lambda (e) (typep e '(unsigned-byte 8))) bytes)
@@ -42,6 +48,7 @@ exec ros -Q -- $0 "$@"
   (let ((minor-ver (as-integer (read-u2 stream)))
         (major-ver (as-integer (read-u2 stream))))
     (cons major-ver minor-ver)))
+
 
 (defun read-constant (stream)
   (let ((tag (read-byte stream)))
