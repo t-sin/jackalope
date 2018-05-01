@@ -224,7 +224,14 @@ exec ros -Q -- $0 "$@"
       (format t "------- fields -------~%~s~%" fields)
 
       (setf methods (read-methods in constants))
-      (format t "------- methods -------~%~s~%" methods))))
+      (format t "------- methods -------~%~s~%" methods)
+
+      ;; (setf attrs (read-attributes in))
+      ;; (format t "------- attributes -------~%~s~%" attrs)
+
+      (format t "~%======== end ========~%")
+      (format t "file-potision: ~s~%" (file-position in))
+      (format t "file-length: ~s~%" (file-length in)))))
 
 
 (defun main (&rest argv)
