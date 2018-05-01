@@ -150,8 +150,8 @@ exec ros -Q -- $0 "$@"
          (desc-index (as-integer (read-u2 stream)))
          (attr-count (as-integer (read-u2 stream)))
          (attributes nil))
-    (dotimes (n (1- attr-count))
       nil)
+    (dotimes (n attr-count)
     (list acc
           (if constant-pool
               (nth name-index constant-pool)
@@ -174,8 +174,8 @@ exec ros -Q -- $0 "$@"
          (desc-index (as-integer (read-u2 stream)))
          (attr-count (as-integer (read-u2 stream)))
          (attributes nil))
-    (dotimes (n (1- attr-count))
       nil)
+    (dotimes (n attr-count)
     (list acc
           (if constant-pool
               (nth name-index constant-pool)
@@ -188,7 +188,7 @@ exec ros -Q -- $0 "$@"
 (defun read-methods (stream &optional constant-pool)
   (let ((count (as-integer (read-u2 stream)))
         (methods nil))
-    (dotimes (n (1- count) (nreverse methods))
+    (dotimes (n count (nreverse methods))
       (push (read-method stream constant-pool) methods))))
 
 
