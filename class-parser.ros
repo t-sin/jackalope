@@ -129,13 +129,28 @@ exec ros -Q -- $0 "$@"
       (push (read-interface stream) interfaces))))
 
 
-(defun read-field (stream))
+(defun read-field (stream &optional constant-pool)
+  (let* ((acc (read-access-flags stream))
+         (name-index (as-integer (read-u2 stream)))
+         (desc-index (as-integer (read-u2 stream)))
+         (attr-count (as-integer (read-u2 stream)))
+         (attributes nil))
+    (dotimes (n (1- attr-count))
+      nil)
+    (list acc
+          (if constant-pool
+              (nth (1- name-index) constant-pool)
+              name-index)
+          (if constant-pool
+              (nth (1- desc-index) constant-pool)
+              desc-index)
+          (nreverse attributes))))
 
-(defun read-fields (stream)
+(defun read-fields (stream &optional constant-pool)
   (let ((count (as-integer (read-u2 stream)))
         (fields nil))
-    (dotimes (n (1- count) (nreverse fields))
-      nil)))
+    (dotimes (n count (nreverse fields))
+      (push (read-field stream constant-pool) fields))))
 
 
 (defun read-method (stream &optional constant-pool)
