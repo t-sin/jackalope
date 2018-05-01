@@ -99,8 +99,13 @@ exec ros -Q -- $0 "$@"
       (when (not (zerop (logand f flags)))
         (push (cdr (assoc f flag-map)) flag-list)))))
 
-(defun read-this-class (stream))
-(defun read-super-class (stream))
+(defun read-this/super-class (stream &optional constant-pool)
+  (let ((index (as-integer (read-u2 stream))))
+    (if constant-pool
+        (list index (nth (1- index) constant-pool))
+        index)))
+
+
 (defun read-interfaces (stream))
 (defun read-fields (stream))
 (defun read-methods (stream))
