@@ -5,7 +5,7 @@ exec ros -Q -- $0 "$@"
 |#
 (progn ;;init forms
   (ros:ensure-asdf)
-  ;;#+quicklisp (ql:quickload '() :silent t)
+  #+quicklisp (ql:quickload '(:babel) :silent t)
   )
 
 (defpackage :ros.script.class-parser.3733376269
@@ -43,9 +43,38 @@ exec ros -Q -- $0 "$@"
         (major-ver (as-integer (read-u2 stream))))
     (cons major-ver minor-ver)))
 
+(defun read-constant (stream)
+  (let ((tag (read-byte stream)))
+    (ecase tag
+      (7 (let ((name-index (as-integer (read-u2 stream))))
+           (list :const/class name-index)))
+      (9 :const/field-ref)
+      (10 (let ((class-index (as-integer (read-u2 stream)))
+                (name-index (as-integer (read-u2 stream))))
+            (list :const/method-ref class-index name-index)))
+      (11 :const/interface-method-ref)
+      (8 :const/string)
+      (3 :const/integer)
+      (4 :const/float)
+      (5 :const/long)
+      (6 :const/double)
+      (12 (let ((name-index (as-integer (read-u2 stream)))
+                (discripter-index (as-integer (read-u2 stream))))
+            (list :const/name-and-type name-index discripter-index)))
+      (1 (let* ((len (as-integer (read-u2 stream)))
+                (buf (make-array len :element-type '(unsigned-byte 8))))
+           (read-sequence buf stream :end len)
+           (list :const/utf8 buf (babel:octets-to-string buf :encoding :utf-8))))
+      (15 :const/method-handle)
+      (16 :const/medhot-type)
+      (18 :const/invoke-dynamic))))
+
 (defun read-constant-pool (stream)
-  (let ((count (as-integer (read-u2 stream))))
-    count))
+  (let ((count (as-integer (read-u2 stream)))
+        (constants nil))
+    (dotimes (n (1- count) (nreverse constants))
+      (push (read-constant stream) constants))))
+
 
 (defun read-access-flats (stream))
 (defun read-this-class (stream))
