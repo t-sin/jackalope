@@ -139,10 +139,10 @@ exec ros -Q -- $0 "$@"
       nil)
     (list acc
           (if constant-pool
-              (nth (1- name-index) constant-pool)
+              (nth name-index constant-pool)
               name-index)
           (if constant-pool
-              (nth (1- desc-index) constant-pool)
+              (nth desc-index constant-pool)
               desc-index)
           (nreverse attributes))))
 
@@ -163,10 +163,10 @@ exec ros -Q -- $0 "$@"
       nil)
     (list acc
           (if constant-pool
-              (nth (1- name-index) constant-pool)
+              (nth name-index constant-pool)
               name-index)
           (if constant-pool
-              (nth (1- desc-index) constant-pool)
+              (nth desc-index constant-pool)
               desc-index)
           (nreverse attributes))))
 
