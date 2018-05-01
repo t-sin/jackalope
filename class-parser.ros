@@ -152,17 +152,41 @@ exec ros -Q -- $0 "$@"
 
 (defun read-attributes (stream))
 
+
 (defun read-class-file (pathname)
   (with-open-file (in pathname
                       :direction :input
                       :element-type '(unsigned-byte 8))
+    (format t "------- ~a -------~%" pathname)
     (multiple-value-bind (magic correct?)
         (read-magic in)
       (if (not correct?)
           (error "invalid magic!")
           (format t "(magic . version): ([~{~x~^ ~}] . ~s)~%"
                   magic (read-version in))))
-    (read-constant-pool in)))
+    (let ((constants nil)
+          (interfaces nil)
+          (fields nil)
+          (methods nil)
+          (attrs nil))
+      (setf constants (read-constant-pool in))
+      (format t "------- constants -------~%~s~%" constants)
+      
+      (format t "------- this -------~%~s~%~s~%"
+              (read-access-flags in)
+              (read-this/super-class in constants))
+      (format t "------- super -------~%~s~%"
+              (read-this/super-class in constants))
+
+      (setf interfaces (read-interfaces in))
+      (format t "------- interfaces -------~%~s~%" interfaces)
+
+      (setf fields (read-fields in))
+      (format t "------- fields -------~%~s~%" fields)
+
+      (setf methods (read-methods in constants))
+      (format t "------- methods -------~%~s~%" methods))))
+
 
 (defun main (&rest argv)
   (declare (ignorable argv))
