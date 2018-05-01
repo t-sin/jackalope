@@ -129,6 +129,21 @@ exec ros -Q -- $0 "$@"
       (push (read-interface stream) interfaces))))
 
 
+(defun read-attribute-info (stream len)
+  (let ((buffer (make-array len)))
+    (read-sequence buffer stream)
+    buffer))
+
+(defun read-attributes (stream)
+  (let ((name-index (as-integer (read-u2 stream)))
+        (len (as-integer (read-u2 stream)))
+        (info nil))
+    (dotimes (n len (nreverse info))
+      (push (list name-index
+                  (read-attribute-info stream len))
+            info))))
+
+
 (defun read-field (stream &optional constant-pool)
   (let* ((acc (read-access-flags stream))
          (name-index (as-integer (read-u2 stream)))
