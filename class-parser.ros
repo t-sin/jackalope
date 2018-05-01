@@ -84,7 +84,21 @@ exec ros -Q -- $0 "$@"
       (push (read-constant stream) constants))))
 
 
-(defun read-access-flats (stream))
+(defun read-access-flags (stream)
+  (let ((flag-map '((#x0001 . :acc/public)
+                    (#x0010 . :acc/final)
+                    (#x0020 . :acc/super)
+                    (#x0200 . :acc/interface)
+                    (#x0400 . :acc/abstract)
+                    (#x1000 . :acc/synthetic)
+                    (#x2000 . :acc/annotation)
+                    (#x4000 . :/acc/enum)))
+        (flags (as-integer (read-u2 stream)))
+        (flag-list))
+    (dolist (f (mapcar #'car flag-map) (nreverse flag-list))
+      (when (not (zerop (logand f flags)))
+        (push (cdr (assoc f flag-map)) flag-list)))))
+
 (defun read-this-class (stream))
 (defun read-super-class (stream))
 (defun read-interfaces (stream))
