@@ -72,6 +72,7 @@ exec ros -Q -- $0 "$@"
 (defun read-constant-pool (stream)
   (let ((count (as-integer (read-u2 stream)))
         (constants nil))
+    ;; entries of constant-pool are index like this: 0 < i < count
     (dotimes (n (1- count) (nreverse constants))
       (push (read-constant stream) constants))))
 
