@@ -113,7 +113,6 @@ exec ros -Q -- $0 "$@"
 (defun read-interfaces (stream)
   (let ((count (as-integer (read-u2 stream)))
         (interfaces nil))
-    (print count)
     (dotimes (n (1- count) (nreverse interfaces))
       nil)))
 
@@ -123,7 +122,6 @@ exec ros -Q -- $0 "$@"
 (defun read-fields (stream)
   (let ((count (as-integer (read-u2 stream)))
         (fields nil))
-    (print count)
     (dotimes (n (1- count) (nreverse fields))
       nil)))
 
