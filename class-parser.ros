@@ -208,7 +208,7 @@ exec ros -Q -- $0 "$@"
       (setf interfaces (read-interfaces in))
       (format t "------- interfaces -------~%~s~%" interfaces)
 
-      (setf fields (read-fields in))
+      (setf fields (read-fields in constants))
       (format t "------- fields -------~%~s~%" fields)
 
       (setf methods (read-methods in constants))
