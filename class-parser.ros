@@ -108,6 +108,7 @@ exec ros -Q -- $0 "$@"
 
 (defun read-interface (stream))
 
+;;; interfaces implemented on `this` class
 (defun read-interfaces (stream)
   (let ((count (as-integer (read-u2 stream)))
         (interfaces nil))
