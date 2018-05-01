@@ -106,9 +106,25 @@ exec ros -Q -- $0 "$@"
         index)))
 
 
-(defun read-interfaces (stream))
-(defun read-fields (stream))
-(defun read-methods (stream))
+(defun read-interface (stream))
+
+(defun read-interfaces (stream)
+  (let ((count (as-integer (read-u2 stream)))
+        (interfaces nil))
+    (print count)
+    (dotimes (n (1- count) (nreverse interfaces))
+      nil)))
+
+
+(defun read-field (stream))
+
+(defun read-fields (stream)
+  (let ((count (as-integer (read-u2 stream)))
+        (fields nil))
+    (print count)
+    (dotimes (n (1- count) (nreverse fields))
+      nil)))
+
 (defun read-attributes (stream))
 
 (defun read-class-file (pathname)
