@@ -134,7 +134,10 @@ exec ros -Q -- $0 "$@"
         (len (as-integer (read-u4 stream))))
     (let ((buffer (make-array len)))
       (read-sequence buffer stream)
-      (list name-index buffer))))
+      (list (if constant-pool
+                (nth (1- name-index) constant-pool)
+                name-index)
+            buffer))))
 
 
 
@@ -145,14 +148,13 @@ exec ros -Q -- $0 "$@"
          (attr-count (as-integer (read-u2 stream)))
          (attributes nil))
     (dotimes (n attr-count)
-      (push (read-attribute stream) attributes))
       (push (read-attribute stream constant-pool) attributes))
     (list acc
           (if constant-pool
-              (nth name-index constant-pool)
+              (nth (1- name-index) constant-pool)
               name-index)
           (if constant-pool
-              (nth desc-index constant-pool)
+              (nth (1- desc-index) constant-pool)
               desc-index)
           (nreverse attributes))))
 
@@ -170,14 +172,13 @@ exec ros -Q -- $0 "$@"
          (attr-count (as-integer (read-u2 stream)))
          (attributes nil))
     (dotimes (n attr-count)
-      (push (read-attribute stream) attributes))
       (push (read-attribute stream constant-pool) attributes))
     (list acc
           (if constant-pool
-              (nth name-index constant-pool)
+              (nth (1- name-index) constant-pool)
               name-index)
           (if constant-pool
-              (nth desc-index constant-pool)
+              (nth (1- desc-index) constant-pool)
               desc-index)
           (nreverse attributes))))
 
@@ -227,7 +228,6 @@ exec ros -Q -- $0 "$@"
             (attrs nil))
         (dotimes (n attr-count)
           (format t "-------- attribute ~a--------~%" n)
-          (push (read-attributes in) attrs)))
           (push (read-attribute in constants) attrs)))
 
       (format t "~%======== end ========~%")
