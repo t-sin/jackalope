@@ -129,7 +129,7 @@ exec ros -Q -- $0 "$@"
       (push (read-interface stream) interfaces))))
 
 
-(defun read-attribute (stream)
+(defun read-attribute (stream &optional constant-pool)
   (let ((name-index (as-integer (read-u2 stream)))
         (len (as-integer (read-u4 stream))))
     (let ((buffer (make-array len)))
@@ -146,6 +146,7 @@ exec ros -Q -- $0 "$@"
          (attributes nil))
     (dotimes (n attr-count)
       (push (read-attribute stream) attributes))
+      (push (read-attribute stream constant-pool) attributes))
     (list acc
           (if constant-pool
               (nth name-index constant-pool)
@@ -170,6 +171,7 @@ exec ros -Q -- $0 "$@"
          (attributes nil))
     (dotimes (n attr-count)
       (push (read-attribute stream) attributes))
+      (push (read-attribute stream constant-pool) attributes))
     (list acc
           (if constant-pool
               (nth name-index constant-pool)
@@ -226,6 +228,7 @@ exec ros -Q -- $0 "$@"
         (dotimes (n attr-count)
           (format t "-------- attribute ~a--------~%" n)
           (push (read-attributes in) attrs)))
+          (push (read-attribute in constants) attrs)))
 
       (format t "~%======== end ========~%")
       (format t "file-potision: ~s~%" (file-position in))
