@@ -55,7 +55,7 @@
       (1 (let* ((len (to-integer (read-u2 stream)))
                 (buf (make-array len :element-type '(unsigned-byte 8))))
            (read-sequence buf stream :end len)
-           (list :const/utf8 buf (babel:octets-to-string buf :encoding :utf-8))))
+           (list :const/utf8 (babel:octets-to-string buf :encoding :utf-8))))
       (15 :const/method-handle)
       (16 :const/medhot-type)
       (18 :const/invoke-dynamic))))
