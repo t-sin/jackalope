@@ -1,11 +1,10 @@
-# Jackalope
+# Jackalope Virtual Machine tools
 
-TBD
 
-# Author
+## Author
 
 - TANAKA Shinichi (shinichi.tanaka45@gmail.com)
 
-# License
+## License
 
 TBD
