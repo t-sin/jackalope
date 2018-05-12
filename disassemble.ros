@@ -222,7 +222,16 @@ exec ros -Q -- $0 "$@"
   (let ((opcode (trivial-gray-streams:stream-read-byte stream)))
     (if (eq opcode :eof)
         :eof
-        (find opcode +opcode+ :test #'= :key #'first))))
+        (destructuring-bind (opc mni operands)
+            (find opcode +opcode+ :test #'= :key #'first)
+          (let ((ins (list mni)))
+            (dolist (opr operands (nreverse ins))
+              (cond ((eql opr 0) (push 0 ins))
+                    ((eql (second opr) :u1)
+                     (push (trivial-gray-streams:stream-read-byte stream) ins))
+                    ((eql (second opr) :i1)
+                     (push (trivial-gray-streams:stream-read-byte stream) ins))
+                    (t (error (format nil "(~s ~s ~s): invalid operand" opc mni operands))))))))))
 
 (defun disassemble* (bytecodes)
   (flex:with-input-from-sequence (stream bytecodes)
