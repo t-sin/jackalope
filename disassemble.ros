@@ -35,7 +35,7 @@ exec ros -Q -- $0 "$@"
     (#xbf :athrow ())
     (#x33 :baload ())
     (#x54 :bastre ())
-    (#x10 :bipush ((:byte :b1)))
+    (#x10 :bipush ((:byte :u1)))
     (#x34 :caload ())
     (#x55 :castore ())
     (#xc0 :checkcast ((:indexbyte1 :u1) (:indexbyte2 :u1)))
