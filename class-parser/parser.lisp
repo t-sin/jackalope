@@ -23,6 +23,7 @@
     (cons major-ver minor-ver)))
 
 
+;;; TODO: implements parser for all constants
 (defun read-constant (stream)
   (let ((tag (read-byte stream)))
     (ecase tag
