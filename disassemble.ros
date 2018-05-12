@@ -239,9 +239,10 @@ exec ros -Q -- $0 "$@"
            (main-method (find "main" (getf cf :methods)
                               :test #'string=
                               :key (lambda (m) (second (second m)))))
-           (bytecodes (second (find "Code" (fourth main-method)
-                                    :test #'string=
-                                    :key (lambda (attr) (second (first attr)))))))
+           (bytecodes (getf (find "Code" (fourth main-method)
+                                  :test #'string=
+                                  :key (lambda (attr) (getf attr :name)))
+                            :code)))
       bytecodes)))
 
 (defun main (&rest argv)
