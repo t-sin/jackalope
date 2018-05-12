@@ -3,4 +3,5 @@
   :description "Jackalope bytecode disassembler"
   :version "0.1"
   :author "TANAKA Shinichi"
-  :depends-on ("jackalope-disassembler/disassembler/package"))
+  :depends-on ("flexi-streams"
+               "jackalope-disassembler/disassembler/package"))
