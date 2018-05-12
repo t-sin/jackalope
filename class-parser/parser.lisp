@@ -102,15 +102,44 @@
       (push (read-interface stream) interfaces))))
 
 
+;;; TODO: implements parser for all attributes
+(defun read-attribute* (stream attr-name constant-pool)
+  (cond ((string= attr-name "Code")
+         (list :max-stack (to-integer (read-u2 stream))
+               :max-locals (to-integer (read-u2 stream))
+               :code (let* ((len (to-integer (read-u4 stream)))
+                            (buf (make-array len :element-type '(unsigned-byte 8))))
+                       (read-sequence buf stream)
+                       buf)
+               :exception-table (let ((et nil))
+                                  (dotimes (n (to-integer (read-u2 stream)) (nreverse et))
+                                    (push (list :start-pc (to-integer (read-u2 stream))
+                                                :end-pc (to-integer (read-u2 stream))
+                                                :handler-pc (to-integer (read-u2 stream))
+                                                :catch-type (to-integer (read-u2 stream)))
+                                          et)))
+               :attributes (let ((attrs nil))
+                             (dotimes (n (to-integer (read-u2 stream)) (nreverse attrs))
+                               (push (read-attribute stream constant-pool) attrs)))))
+        ((string= attr-name "SourceFile")
+         (list :soucefile (nth (1- (to-integer (read-u2 stream))) constant-pool)))
+        ((string= attr-name "LineNumberTable")
+         (list :line-number-table
+               (let ((lnt nil))
+                 (dotimes (n (to-integer (read-u2 stream)) (nreverse lnt))
+                   (push (list :start-pc (to-integer (read-u2 stream))
+                               :end-pc (to-integer (read-u2 stream)))
+                         lnt)))))
+        (t (error (format nil "'~s' is not implemented or invalid attr." attr-name)))))
+
 (defun read-attribute (stream constant-pool)
-  (let ((name-index (to-integer (read-u2 stream)))
-        (len (to-integer (read-u4 stream))))
-    (let ((buffer (make-array len)))
-      (read-sequence buffer stream)
-      (list (if constant-pool
-                (nth (1- name-index) constant-pool)
-                name-index)
-            buffer))))
+  (let* ((name-index (to-integer (read-u2 stream)))
+         (attr-name (nth (1- name-index) constant-pool))
+         (len (to-integer (read-u4 stream))))
+    (if (eq (first attr-name) :utf8)
+        (append (list :name (second attr-name) :length len)
+                (read-attribute* stream (second attr-name) constant-pool))
+        (error (format nil "'~s' invalid attribute!" attr-name)))))
 
 
 
