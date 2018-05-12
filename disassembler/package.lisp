@@ -3,5 +3,8 @@
   (:use #:cl)
   (:import-from #:jackalope-disassembler/disassembler/instructions
                 #:disassemble-bytecode)
-  (:export #:disassemble-bytecodes))
+  (:import-from #:jackalope-disassembler/disassembler/formatter
+                #:format-bytecode)
+  (:export #:disassemble-bytecode
+           #:format-bytecode))
 (in-package #:jackalope-disassembler)
