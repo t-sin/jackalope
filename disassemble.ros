@@ -5,7 +5,8 @@ exec ros -Q -- $0 "$@"
 |#
 (progn ;;init forms
   (ros:ensure-asdf)
-  ;;#+quicklisp (ql:quickload '() :silent t)
+  #+quicklisp (ql:quickload '(:flexi-streams
+                              :jackalope-class-parser) :silent t)
   )
 
 (defpackage :ros.script.disassemble.3735093436
@@ -215,8 +216,35 @@ exec ros -Q -- $0 "$@"
     (#x11 :sipush ((:byte1 :u1) (:byte2 :u1)))
     (#x5f :swap ())
     (#xaa :tableswitch ())  ; TODO: operands
-    (#xc4 :wide ((:opcode :u1) (:indexbyte1 :u1) (:indexbyte2 :u1))))
+    (#xc4 :wide ((:opcode :u1) (:indexbyte1 :u1) (:indexbyte2 :u1)))))
+
+(defun read-opcode (stream)
+  (let ((opcode (trivial-gray-streams:stream-read-byte stream)))
+    (if (eq opcode :eof)
+        :eof
+        (find opcode +opcode+ :test #'= :key #'first))))
+
+(defun disassemble* (bytecodes)
+  (flex:with-input-from-sequence (stream bytecodes)
+    (loop
+      :for i := (read-opcode stream)
+      :until (eq i :eof)
+      :collect i)))
+
+(defun get-main-method (pathname)
+  (with-open-file (in pathname
+                      :direction :input
+                      :element-type '(unsigned-byte 8))
+    (let* ((cf (jackalope-class-parser:read-class-file in))
+           (main-method (find "main" (getf cf :methods)
+                              :test #'string=
+                              :key (lambda (m) (second (second m)))))
+           (bytecodes (second (find "Code" (fourth main-method)
+                                    :test #'string=
+                                    :key (lambda (attr) (second (first attr)))))))
+      bytecodes)))
 
 (defun main (&rest argv)
-  (declare (ignorable argv)))
+  (declare (ignorable argv))
+  (format t "~s~%" (disassemble* (get-main-method (first argv)))))
 ;;; vim: set ft=lisp lisp:
