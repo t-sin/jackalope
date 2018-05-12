@@ -84,7 +84,7 @@
       (when (not (zerop (logand f flags)))
         (push (cdr (assoc f +access-flags+)) flag-list)))))
 
-(defun read-this/super-class (stream &optional constant-pool)
+(defun read-this/super-class (stream constant-pool)
   (let ((index (to-integer (read-u2 stream))))
     (if constant-pool
         (list index (nth (1- index) constant-pool))
@@ -102,7 +102,7 @@
       (push (read-interface stream) interfaces))))
 
 
-(defun read-attribute (stream &optional constant-pool)
+(defun read-attribute (stream constant-pool)
   (let ((name-index (to-integer (read-u2 stream)))
         (len (to-integer (read-u4 stream))))
     (let ((buffer (make-array len)))
@@ -114,7 +114,7 @@
 
 
 
-(defun read-field (stream &optional constant-pool)
+(defun read-field (stream constant-pool)
   (let* ((acc (read-access-flags stream))
          (name-index (to-integer (read-u2 stream)))
          (desc-index (to-integer (read-u2 stream)))
@@ -131,14 +131,14 @@
               desc-index)
           (nreverse attributes))))
 
-(defun read-fields (stream &optional constant-pool)
+(defun read-fields (stream constant-pool)
   (let ((count (to-integer (read-u2 stream)))
         (fields nil))
     (dotimes (n count (nreverse fields))
       (push (read-field stream constant-pool) fields))))
 
 
-(defun read-method (stream &optional constant-pool)
+(defun read-method (stream constant-pool)
   (let* ((acc (read-access-flags stream))
          (name-index (to-integer (read-u2 stream)))
          (desc-index (to-integer (read-u2 stream)))
@@ -155,7 +155,7 @@
               desc-index)
           (nreverse attributes))))
 
-(defun read-methods (stream &optional constant-pool)
+(defun read-methods (stream constant-pool)
   (let ((count (to-integer (read-u2 stream)))
         (methods nil))
     (dotimes (n count (nreverse methods))
