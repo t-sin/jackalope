@@ -1,5 +1,5 @@
 (in-package #:cl-user)
-(defpackage #:jackalope-class-parser/class-parser/classfile
+(defpackage #:jackalope-classfile/classfile/classfile
   (:use #:cl)
   (:export #:make-classfile
            #:classfile-version
@@ -11,7 +11,7 @@
            #:classfile-fields
            #:classfile-methods
            #:classfile-attributes))
-(in-package #:jackalope-class-parser/class-parser/classfile)
+(in-package #:jackalope-classfile/classfile/classfile)
 
 (defstruct classfile
   version

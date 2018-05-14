@@ -1,14 +1,14 @@
 (in-package #:cl-user)
-(defpackage #:jackalope-class-parser/class-parser/parser
+(defpackage #:jackalope-classfile/classfile/parser
   (:use #:cl)
-  (:import-from #:jackalope-class-parser/class-parser/classfile
+  (:import-from #:jackalope-classfile/classfile/classfile
                 #:make-classfile)
-  (:import-from #:jackalope-class-parser/class-parser/reader
+  (:import-from #:jackalope-classfile/classfile/reader
                 #:read-u2
                 #:read-u4
                 #:to-integer)
   (:export #:read-class-file))
-(in-package #:jackalope-class-parser/class-parser/parser)
+(in-package #:jackalope-classfile/classfile/parser)
 
 
 (defun read-magic (stream)

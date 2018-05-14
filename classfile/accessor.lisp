@@ -1,10 +1,10 @@
 (in-package #:cl-user)
-(defpackage #:jackalope-class-parser/class-parser/accessor
+(defpackage #:jackalope-classfile/classfile/accessor
   (:use #:cl)
   (:export #:find-attribute
            #:find-field
            #:find-method*))
-(in-package #:jackalope-class-parser/class-parser/accessor)
+(in-package #:jackalope-classfile/classfile/accessor)
 
 
 (defun find-attribute (name attributes)

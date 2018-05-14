@@ -1,7 +1,7 @@
 (in-package #:cl-user)
-(defpackage #:jackalope-class-parser
+(defpackage #:jackalope-classfile
   (:use #:cl)
-  (:import-from #:jackalope-class-parser/class-parser/classfile
+  (:import-from #:jackalope-classfile/classfile/classfile
                 #:make-classfile
                 #:classfile-version
                 #:classfile-constant-pool
@@ -12,9 +12,9 @@
                 #:classfile-fields
                 #:classfile-methods
                 #:classfile-attributes)
-  (:import-from #:jackalope-class-parser/class-parser/parser
+  (:import-from #:jackalope-classfile/classfile/parser
                 #:read-class-file)
-  (:import-from #:jackalope-class-parser/class-parser/accessor
+  (:import-from #:jackalope-classfile/classfile/accessor
                 #:find-attribute
                 #:find-field
                 #:find-method*)
@@ -34,5 +34,5 @@
            #:find-attribute
            #:find-field
            #:find-methods*))
-(in-package #:jackalope-class-parser)
+(in-package #:jackalope-classfile)
 

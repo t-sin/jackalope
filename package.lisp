@@ -1,7 +1,7 @@
 (in-package #:cl-user)
 (defpackage #:jackalope
   (:use #:cl)
-  (:import-from #:jackalope-class-parser
+  (:import-from #:jackalope-classfile
                 #:make-classfile
                 #:classfile-version
                 #:classfile-constant-pool

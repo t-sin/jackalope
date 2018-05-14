@@ -1,10 +1,10 @@
 (in-package #:cl-user)
-(defpackage #:jackalope-class-parser/class-parser/reader
+(defpackage #:jackalope-classfile/classfile/reader
   (:use #:cl)
   (:export #:read-u2
            #:read-u4
            #:to-integer))
-(in-package #:jackalope-class-parser/class-parser/reader)
+(in-package #:jackalope-classfile/classfile/reader)
 
 
 (defun read-u2 (stream)
