@@ -1,5 +1,8 @@
 # Jackalope Virtual Machine tools
 
+> それがホントのヒーローなのです。
+> 
+> --- 柴本翔, 『ツノウサギ』
 
 ## Author
 
