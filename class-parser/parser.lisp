@@ -1,6 +1,8 @@
 (in-package #:cl-user)
 (defpackage #:jackalope-class-parser/class-parser/parser
   (:use #:cl)
+  (:import-from #:jackalope-class-parser/class-parser/classfile
+                #:make-classfile)
   (:import-from #:jackalope-class-parser/class-parser/reader
                 #:read-u2
                 #:read-u4
@@ -198,16 +200,15 @@
       (error "invalid magic!"))
     (let ((version (read-version stream))
           (constants (read-constant-pool stream)))
-      (list :magic magic
-            :version version
-            :constant-pool constants
-            :access-flags (read-access-flags stream)
-            :this-class (read-this/super-class stream constants)
-            :super-class (read-this/super-class stream constants)
-            :interfaces (read-interfaces stream)
-            :fields (read-fields stream constants)
-            :methods (read-methods stream constants)
-            :attributes (let ((attr-count (to-integer (read-u2 stream)))
-                              (attrs nil))
-                          (dotimes (n attr-count (nreverse attrs))
-                            (push (read-attribute stream constants) attrs)))))))
+      (make-classfile :version version
+                      :constant-pool (coerce constants 'vector)
+                      :access-flags (coerce (read-access-flags stream) 'vector)
+                      :this (read-this/super-class stream constants)
+                      :super (read-this/super-class stream constants)
+                      :interfaces (coerce (read-interfaces stream) 'vector)
+                      :fields (coerce (read-fields stream constants) 'vector)
+                      :methods (coerce (read-methods stream constants) 'vector)
+                      :attributes (let ((attr-count (to-integer (read-u2 stream)))
+                                        (attrs nil))
+                                    (dotimes (n attr-count (coerce (nreverse attrs) 'vector))
+                                      (push (read-attribute stream constants) attrs)))))))
