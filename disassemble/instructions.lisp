@@ -2,7 +2,8 @@
 (defpackage #:jackalope-disassemble/disassemble/instructions
   (:use #:cl)
   (:shadow #:disassemble)
-  (:export #:disassemble))
+  (:export #:+opcode-spec+
+           #:disassemble))
 (in-package #:jackalope-disassemble/disassemble/instructions)
 
 
