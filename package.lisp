@@ -14,9 +14,9 @@
                 #:classfile-attributes
 
                 #:read-class-file)
-  (:import-from #:jackalope-disassembler
-                #:disassemble-bytecode
-                #:format-bytecode)
+  (:shadowing-import-from #:jackalope-disassembler
+                          #:disassemble
+                          #:format-bytecode)
   (:export #:make-classfile
            #:classfile-version
            #:classfile-constant-pool
@@ -29,6 +29,6 @@
            #:classfile-attributes
            #:read-class-file
 
-           #:disassemble-bytecode
+           #:disassemble
            #:format-bytecode))
 (in-package #:jackalope)

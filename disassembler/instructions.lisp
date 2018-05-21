@@ -1,7 +1,8 @@
 (in-package #:cl-user)
 (defpackage #:jackalope-disassembler/disassembler/instructions
   (:use #:cl)
-  (:export #:disassemble-bytecode))
+  (:shadow #:disassemble)
+  (:export #:disassemble))
 (in-package #:jackalope-disassembler/disassembler/instructions)
 
 
@@ -227,7 +228,7 @@
                     (t (error (format nil "(~s ~s ~s): invalid operand" opc mni operands))))))))))
 
 
-(defun disassemble-bytecode (bytecode)
+(defun disassemble (bytecode)
   (flex:with-input-from-sequence (stream bytecode)
     (loop
       :for i := (read-opcode stream)
