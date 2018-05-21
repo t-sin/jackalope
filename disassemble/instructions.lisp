@@ -1,9 +1,9 @@
 (in-package #:cl-user)
-(defpackage #:jackalope-disassembler/disassembler/instructions
+(defpackage #:jackalope-disassemble/disassemble/instructions
   (:use #:cl)
   (:shadow #:disassemble)
   (:export #:disassemble))
-(in-package #:jackalope-disassembler/disassembler/instructions)
+(in-package #:jackalope-disassemble/disassemble/instructions)
 
 
 ;;; ((#xOPECODE :mnemonic ((:name1 :u1) (:name2 :u2) (:name3 :u4) ...))

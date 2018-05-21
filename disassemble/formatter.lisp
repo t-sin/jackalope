@@ -1,9 +1,9 @@
 (in-package #:cl-user)
-(defpackage #:jackalope-disassembler/disassembler/formatter
+(defpackage #:jackalope-disassemble/disassemble/formatter
   (:use #:cl)
   (:shadow #:format)
   (:export #:format))
-(in-package #:jackalope-disassembler/disassembler/formatter)
+(in-package #:jackalope-disassemble/disassemble/formatter)
 
 
 (defun format (parsed-bytecodes)

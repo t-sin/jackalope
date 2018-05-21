@@ -1,5 +1,6 @@
 (in-package #:cl-user)
 (defpackage #:jackalope
+  (:nicknames #:jacka)
   (:use #:cl)
   (:import-from #:jackalope-classfile
                 #:make-classfile
@@ -14,7 +15,7 @@
                 #:classfile-attributes
 
                 #:read-class-file)
-  (:shadowing-import-from #:jackalope-disassembler
+  (:shadowing-import-from #:jackalope-disassemble
                           #:disassemble
                           #:format)
   (:export #:make-classfile

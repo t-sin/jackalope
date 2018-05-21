@@ -1,7 +1,7 @@
-(defsystem :jackalope-disassembler
+(defsystem :jackalope-disassemble
   :class :package-inferred-system
   :description "Jackalope bytecode disassembler"
   :version "0.1"
   :author "TANAKA Shinichi"
   :depends-on ("flexi-streams"
-               "jackalope-disassembler/disassembler/package"))
+               "jackalope-disassemble/disassemble/package"))
