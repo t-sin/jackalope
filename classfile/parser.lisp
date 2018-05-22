@@ -180,8 +180,8 @@
     (dotimes (n attr-count)
       (push (read-attribute stream constant-pool) attributes))
     (make-method :access-flags acc
-                 :name (nth (1- name-index) constant-pool)
-                 :descriptor (nth (1- desc-index) constant-pool)
+                 :name (second (nth (1- name-index) constant-pool))
+                 :descriptor (second (nth (1- desc-index) constant-pool))
                  :attributes (nreverse attributes))))
 
 (defun read-methods (stream constant-pool)
