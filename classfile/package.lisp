@@ -3,6 +3,7 @@
   (:use #:cl)
   (:shadowing-import-from #:jackalope-classfile/classfile/classfile
                           #:method
+                          #:make-method
                           #:method-access-flags
                           #:method-name
                           #:method-descriptor
@@ -26,6 +27,7 @@
                           #:find-field
                           #:find-method)
   (:export #:method
+           #:make-method
            #:method-access-flags
            #:method-name
            #:method-descriptor

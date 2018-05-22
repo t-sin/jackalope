@@ -2,23 +2,39 @@
 (defpackage #:jackalope
   (:nicknames #:jacka)
   (:use #:cl)
-  (:import-from #:jackalope-classfile
-                #:make-classfile
-                #:classfile-version
-                #:classfile-constant-pool
-                #:classfile-access-flags
-                #:classfile-this
-                #:classfile-super
-                #:classfile-interfaces
-                #:classfile-fields
-                #:classfile-methods
-                #:classfile-attributes
+  (:shadowing-import-from #:jackalope-classfile
+                          #:method
+                          #:make-method
+                          #:method-access-flags
+                          #:method-name
+                          #:method-descriptor
+                          #:method-attributes
 
-                #:read-class-file)
+                          #:classfile
+                          #:make-classfile
+                          #:classfile-version
+                          #:classfile-constant-pool
+                          #:classfile-access-flags
+                          #:classfile-this
+                          #:classfile-super
+                          #:classfile-interfaces
+                          #:classfile-fields
+                          #:classfile-methods
+                          #:classfile-attributes
+
+                          #:read-class-file)
   (:shadowing-import-from #:jackalope-disassemble
                           #:disassemble
                           #:format)
-  (:export #:make-classfile
+  (:export #:method
+           #:make-method
+           #:method-access-flags
+           #:method-name
+           #:method-descriptor
+           #:method-attributes
+
+           #:classfile
+           #:make-classfile
            #:classfile-version
            #:classfile-constant-pool
            #:classfile-access-flags
