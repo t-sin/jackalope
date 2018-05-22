@@ -33,6 +33,6 @@
 
            #:find-attribute
            #:find-field
-           #:find-methods))
+           #:find-method))
 (in-package #:jackalope-classfile)
 
