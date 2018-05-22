@@ -9,4 +9,8 @@
 (defun format-bytecode (parsed-bytecodes)
   (loop
     :for bytecode :in parsed-bytecodes
-    :do (format cl:*standard-output* "    ~s~%" bytecode)))
+    :do (format cl:*standard-output* "    ~a" (symbol-name (car bytecode)))
+    :do (loop
+          :for byte :in (cdr bytecode)
+          :do (format cl:*standard-output* " ~s" byte)
+          :finally (format cl:*standard-output* "~%"))))
