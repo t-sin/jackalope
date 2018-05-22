@@ -22,7 +22,11 @@
                           #:classfile-methods
                           #:classfile-attributes
 
-                          #:read-class-file)
+                          #:read-class-file
+
+                          #:find-attribute
+                          #:find-field
+                          #:find-method)
   (:shadowing-import-from #:jackalope-disassemble
                           #:disassemble
                           #:format)
@@ -45,6 +49,10 @@
            #:classfile-methods
            #:classfile-attributes
            #:read-class-file
+
+           #:find-attribute
+           #:find-field
+           #:find-method
 
            #:disassemble
            #:format))
