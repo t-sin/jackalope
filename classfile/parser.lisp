@@ -1,8 +1,9 @@
 (in-package #:cl-user)
 (defpackage #:jackalope-classfile/classfile/parser
   (:use #:cl)
-  (:import-from #:jackalope-classfile/classfile/classfile
-                #:make-classfile)
+  (:shadowing-import-from #:jackalope-classfile/classfile/classfile
+                          #:make-method
+                          #:make-classfile)
   (:import-from #:jackalope-classfile/classfile/reader
                 #:read-u2
                 #:read-u4
@@ -178,14 +179,10 @@
          (attributes nil))
     (dotimes (n attr-count)
       (push (read-attribute stream constant-pool) attributes))
-    (list acc
-          (if constant-pool
-              (nth (1- name-index) constant-pool)
-              name-index)
-          (if constant-pool
-              (nth (1- desc-index) constant-pool)
-              desc-index)
-          (nreverse attributes))))
+    (make-method :access-flags acc
+                 :name (nth (1- name-index) constant-pool)
+                 :descriptor (nth (1- desc-index) constant-pool)
+                 :attributes (nreverse attributes))))
 
 (defun read-methods (stream constant-pool)
   (let ((count (to-integer (read-u2 stream)))
