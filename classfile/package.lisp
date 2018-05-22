@@ -14,10 +14,10 @@
                 #:classfile-attributes)
   (:import-from #:jackalope-classfile/classfile/parser
                 #:read-class-file)
-  (:import-from #:jackalope-classfile/classfile/accessor
-                #:find-attribute
-                #:find-field
-                #:find-method*)
+  (:shadowing-import-from #:jackalope-classfile/classfile/accessor
+                          #:find-attribute
+                          #:find-field
+                          #:find-method)
   (:export #:make-classfile
            #:classfile-version
            #:classfile-constant-pool
@@ -33,6 +33,6 @@
 
            #:find-attribute
            #:find-field
-           #:find-methods*))
+           #:find-methods))
 (in-package #:jackalope-classfile)
 
