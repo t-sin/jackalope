@@ -3,7 +3,7 @@
   (:use #:cl)
   (:shadowing-import-from #:jackalope-disassemble/disassemble/instructions
                           #:disassemble)
-  (:import-from #:jackalope-disassemble/disassemble/formatter
+  (:import-from #:jackalope-disassemble/disassemble/format
                 #:format-bytecode)
   (:export #:disassemble
            #:format-bytecode))

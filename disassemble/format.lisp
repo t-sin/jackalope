@@ -1,5 +1,5 @@
 (in-package #:cl-user)
-(defpackage #:jackalope-disassemble/disassemble/formatter
+(defpackage #:jackalope-disassemble/disassemble/format
   (:use #:cl)
   (:shadowing-import-from #:jackalope-classfile
                           #:method-access-flags
@@ -12,7 +12,8 @@
                           #:disassemble)
   (:export #:format-bytecode
            #:format-methods))
-(in-package #:jackalope-disassemble/disassemble/formatter)
+(in-package #:jackalope-disassemble/disassemble/format)
+
 
 (defun format-bytecode (parsed-bytecodes)
   (loop
