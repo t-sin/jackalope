@@ -2,6 +2,19 @@
 (defpackage #:jackalope-classfile/classfile/parser
   (:use #:cl)
   (:shadowing-import-from #:jackalope-classfile/classfile/classfile
+                          #:constant-value
+                          #:constant-value
+                          #:code
+                          #:stack-map-table
+                          #:exception
+                          #:inner-class
+                          #:enclosing-method
+                          #:synthetic
+                          #:signature
+                          #:source-file
+                          #:source-debug-extension
+                          #:line-number-table
+
                           #:make-method
                           #:make-classfile)
   (:import-from #:jackalope-classfile/classfile/reader
@@ -107,42 +120,92 @@
 
 
 ;;; TODO: implements parser for all attributes
-(defun read-attribute* (stream attr-name constant-pool)
-  (cond ((string= attr-name "Code")
-         (list :max-stack (to-integer (read-u2 stream))
-               :max-locals (to-integer (read-u2 stream))
-               :code (let* ((len (to-integer (read-u4 stream)))
-                            (buf (make-array len :element-type '(unsigned-byte 8))))
-                       (read-sequence buf stream)
-                       buf)
-               :exception-table (let ((et nil))
-                                  (dotimes (n (to-integer (read-u2 stream)) (nreverse et))
-                                    (push (list :start-pc (to-integer (read-u2 stream))
-                                                :end-pc (to-integer (read-u2 stream))
-                                                :handler-pc (to-integer (read-u2 stream))
-                                                :catch-type (to-integer (read-u2 stream)))
-                                          et)))
-               :attributes (let ((attrs nil))
-                             (dotimes (n (to-integer (read-u2 stream)) (nreverse attrs))
-                               (push (read-attribute stream constant-pool) attrs)))))
+(defun read-attribute* (stream attr-name len constant-pool)
+  (cond ((string= attr-name "ConstantValue")
+         (make-instance 'constant-value :name attr-name
+                        :index (to-integer (read-u2 stream))))
+        ((string= attr-name "Code")
+         (make-instance 'code :name attr-name
+                        :max-stack (to-integer (read-u2 stream))
+                        :max-locals (to-integer (read-u2 stream))
+                        :code (let* ((len (to-integer (read-u4 stream)))
+                                     (buf (make-array len :element-type '(unsigned-byte 8))))
+                                (read-sequence buf stream)
+                                buf)
+                        :exception-table (let ((et nil))
+                                           (dotimes (n (to-integer (read-u2 stream)) (nreverse et))
+                                             (push (list :start-pc (to-integer (read-u2 stream))
+                                                         :end-pc (to-integer (read-u2 stream))
+                                                         :handler-pc (to-integer (read-u2 stream))
+                                                         :catch-type (to-integer (read-u2 stream)))
+                                                   et)))
+                        :attrs (let ((attrs nil))
+                                 (dotimes (n (to-integer (read-u2 stream)) (nreverse attrs))
+                                   (push (read-attribute stream constant-pool) attrs)))))
+        ((string= attr-name "StackMapTable")
+         (make-instance 'stack-map-table :name attr-name
+                        :frame (let* ((len (to-integer (read-u2 stream))))
+                                 (error "wow this classfile is too complicated to me ;("))))
+        ((string= attr-name "Exceptions")
+         (make-instance 'exception :name attr-name
+                        :table (let ((len (to-integer (read-u2 stream)))
+                                     (table nil))
+                                 (dotimes (n len (nreverse table))
+                                   (push (to-integer (read-u2 stream)) table)))))
+        ((string= attr-name "InnerClasses")
+         (make-instance 'inner-class :name attr-name
+                        :classes (let ((classes nil))
+                                   (dotimes (n (to-integer (read-u2 stream)) (nreverse classes))
+                                     (push (list :inner-class-info-idx (to-integer (read-u2 stream))
+                                                 :outer-class-info-idx (to-integer (read-u2 stream))
+                                                 :inner-name-idx (to-integer (read-u2 stream))
+                                                 :inner-class-access-flags (to-integer (read-u2 stream)))
+                                           classes)))))
+        ((string= attr-name "EnclosingMethod")
+         (make-instance 'enclosing-method :name attr-name
+                        :class-idx (to-integer (read-u2 stream))
+                        :method-idx (to-integer (read-u2 stream))))
+        ((string= attr-name "Synthetic")
+         (make-instance 'synthetic :name attr-name))
+        ((string= attr-name "Signature")
+         (make-instance 'signature :name attr-name
+                        :index (to-integer (read-u2 stream))))
         ((string= attr-name "SourceFile")
-         (list :soucefile (nth (1- (to-integer (read-u2 stream))) constant-pool)))
+         (make-instance 'signature :name attr-name
+                        :index (to-integer (read-u2 stream))))
+        ((string= attr-name "SourceDebugExtension")
+         (make-instance 'source-debug-extention :name attr-name
+                        :extensions (let ((ext nil))
+                                      (dotimes (n len (nreverse ext))
+                                        (push (read-byte stream) ext)))))
         ((string= attr-name "LineNumberTable")
-         (list :line-number-table
-               (let ((lnt nil))
-                 (dotimes (n (to-integer (read-u2 stream)) (nreverse lnt))
-                   (push (list :start-pc (to-integer (read-u2 stream))
-                               :end-pc (to-integer (read-u2 stream)))
-                         lnt)))))
+         (make-instance 'line-number-table :name attr-name
+                        :table (let ((lnt nil))
+                                 (dotimes (n (to-integer (read-u2 stream)) (nreverse lnt))
+                                   (push (list :start-pc (to-integer (read-u2 stream))
+                                               :end-pc (to-integer (read-u2 stream)))
+                                         lnt)))))
+        ((string= attr-name "LocalVariableTable") ())
+        ((string= attr-name "LocalVariableTypeTable") ())
+        ((string= attr-name "Deprecated") ())
+        ((string= attr-name "RuntimeVisibleAnnotations") ())
+        ((string= attr-name "RuntimeInvisibleAnnotations") ())
+        ((string= attr-name "RuntimeVisibleParameterAnnotations") ())
+        ((string= attr-name "RuntimeInvisibleParameterAnnotations") ())
+        ((string= attr-name "RuntimeVisibleTypeAnnotations") ())
+        ((string= attr-name "RuntimeInvisibleTypeAnnotations") ())
+        ((string= attr-name "AnnotationDefault") ())
+        ((string= attr-name "BootstrapMethods") ())
+        ((string= attr-name "MethodParameters") ())
         (t (error (format nil "'~s' is not implemented or invalid attr." attr-name)))))
+
 
 (defun read-attribute (stream constant-pool)
   (let* ((name-index (to-integer (read-u2 stream)))
          (attr-name (nth (1- name-index) constant-pool))
          (len (to-integer (read-u4 stream))))
     (if (eq (first attr-name) :utf8)
-        (append (list :name (second attr-name) :length len)
-                (read-attribute* stream (second attr-name) constant-pool))
+        (read-attribute* stream (second attr-name) len constant-pool)
         (error (format nil "'~s' invalid attribute!" attr-name)))))
 
 
