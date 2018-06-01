@@ -54,7 +54,7 @@
 
 ;;; attributes
 (defclass attribute ()
-  ((name :initarg :name :accessor attribute-name :allocation :class)))
+  ((name :initarg :name :accessor attribute-name)))
 
 (defclass constant-value (attribute)
   ((index :initarg :index :accessor constant-value-index)))
