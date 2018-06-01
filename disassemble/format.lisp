@@ -12,7 +12,7 @@
                           #:+opcode-spec+
                           #:disassemble)
   (:export #:format-bytecode
-           #:format-methods))
+           #:format-method))
 (in-package #:jackalope-disassemble/disassemble/format)
 
 

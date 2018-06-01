@@ -29,7 +29,8 @@
                           #:find-method)
   (:shadowing-import-from #:jackalope-disassemble
                           #:disassemble
-                          #:format-bytecode)
+                          #:format-bytecode
+                          #:format-method)
   (:export #:method
            #:make-method
            #:method-access-flags
@@ -55,5 +56,6 @@
            #:find-method
 
            #:disassemble
-           #:format-bytecode))
+           #:format-bytecode
+           #:format-method))
 (in-package #:jackalope)
