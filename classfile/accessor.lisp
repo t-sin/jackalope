@@ -5,11 +5,15 @@
   (:import-from #:jackalope-classfile/classfile/classfile
                 #:attribute-name
                 #:method-name)
-  (:export #:find-attribute
+  (:export #:find-constant
+           #:find-attribute
            #:find-field
            #:find-method))
 (in-package #:jackalope-classfile/classfile/accessor)
 
+
+(defun find-constant (index constant-pool)
+  (aref constant-pool (1- index)))
 
 (defun find-attribute (name attributes)
   (find name attributes
