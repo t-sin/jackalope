@@ -14,7 +14,7 @@
 (defun find-attribute (name attributes)
   (find name attributes
         :test #'string=
-        :key #'(lambda (a) (getf a :name))))
+        :key #'attribute-name))
 
 (defun find-field (name attributes))
 
