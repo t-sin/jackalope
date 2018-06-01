@@ -3,6 +3,7 @@
   (:use #:cl)
   (:shadow #:find-method)
   (:import-from #:jackalope-classfile/classfile/classfile
+                #:attribute-name
                 #:method-name)
   (:export #:find-attribute
            #:find-field
