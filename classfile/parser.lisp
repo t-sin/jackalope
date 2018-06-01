@@ -14,6 +14,9 @@
                           #:source-file
                           #:source-debug-extension
                           #:line-number-table
+                          #:local-variable-table
+                          #:local-variable-type-table
+                          #:deprecated
 
                           #:make-method
                           #:make-classfile)
@@ -185,9 +188,26 @@
                                    (push (list :start-pc (to-integer (read-u2 stream))
                                                :end-pc (to-integer (read-u2 stream)))
                                          lnt)))))
-        ((string= attr-name "LocalVariableTable") ())
-        ((string= attr-name "LocalVariableTypeTable") ())
-        ((string= attr-name "Deprecated") ())
+        ((string= attr-name "LocalVariableTable")
+         (make-instance 'local-variable-tale :name attr-name
+                        :table (let ((lvt nil))
+                                 (dotimes (n (to-integer (read-u2 stream)) (nreverse lvt))
+                                   (push (list :start-pc (to-integer (read-u2 stream))
+                                               :length (to-integer (read-u2 stream))
+                                               :name-index (to-integer (read-u2 stream))
+                                               :desc-index (to-integer (read-u2 stream))
+                                               :index (to-integer (read-u2 stream))))))))
+        ((string= attr-name "LocalVariableTypeTable")
+         (make-instance 'local-variable-type-tale :name attr-name
+                        :table (let ((lvt nil))
+                                 (dotimes (n (to-integer (read-u2 stream)) (nreverse lvt))
+                                   (push (list :start-pc (to-integer (read-u2 stream))
+                                               :length (to-integer (read-u2 stream))
+                                               :name-index (to-integer (read-u2 stream))
+                                               :sign-index (to-integer (read-u2 stream))
+                                               :index (to-integer (read-u2 stream))))))))
+        ((string= attr-name "Deprecated")
+         (make-instance 'deprecated :name attr-name))
         ((string= attr-name "RuntimeVisibleAnnotations") ())
         ((string= attr-name "RuntimeInvisibleAnnotations") ())
         ((string= attr-name "RuntimeVisibleParameterAnnotations") ())

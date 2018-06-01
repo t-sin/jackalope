@@ -31,6 +31,11 @@
            #:source-debug-extensions
            #:line-number-table
            #:line-number-table-table
+           #:local-variable-table
+           #:local-variable-table-table
+           #:local-variable-type-table
+           #:local-variable-type-table-table
+           #:deprecated
 
            #:method
            #:make-method
@@ -93,6 +98,14 @@
 
 (defclass line-number-table (attribute)
   ((table :initarg :table :accessor line-number-table-table)))
+
+(defclass local-variable-table (attribute)
+  ((table :initarg :table :accessor local-variable-table-table)))
+
+(defclass local-variable-type-table (attribute)
+  ((table :initarg :table :accessor local-variable-type-table-table)))
+
+(defclass deprecated (attribute))
 
 (defstruct method
   access-flags
