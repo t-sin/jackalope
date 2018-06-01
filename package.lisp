@@ -30,7 +30,8 @@
   (:shadowing-import-from #:jackalope-disassemble
                           #:disassemble
                           #:format-bytecode
-                          #:format-method)
+                          #:format-method
+                          #:format-classfile)
   (:export #:method
            #:make-method
            #:method-access-flags
@@ -57,5 +58,6 @@
 
            #:disassemble
            #:format-bytecode
-           #:format-method))
+           #:format-method
+           #:format-classfile))
 (in-package #:jackalope)
