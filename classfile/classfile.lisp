@@ -105,7 +105,7 @@
 (defclass local-variable-type-table (attribute)
   ((table :initarg :table :accessor local-variable-type-table-table)))
 
-(defclass deprecated (attribute))
+(defclass deprecated (attribute) ())
 
 (defstruct method
   access-flags
