@@ -50,7 +50,7 @@
                           #:classfile-methods
                           #:classfile-attributes)
   (:import-from #:jackalope-classfile/classfile/parser
-                #:read-class-file)
+                #:read-classfile)
   (:shadowing-import-from #:jackalope-classfile/classfile/accessor
                           #:find-attribute
                           #:find-field
@@ -103,7 +103,7 @@
            #:classfile-methods
            #:classfile-attributes
 
-           #:read-class-file
+           #:read-classfile
 
            #:find-attribute
            #:find-field

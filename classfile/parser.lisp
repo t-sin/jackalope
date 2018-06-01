@@ -24,7 +24,7 @@
                 #:read-u2
                 #:read-u4
                 #:to-integer)
-  (:export #:read-class-file))
+  (:export #:read-classfile))
 (in-package #:jackalope-classfile/classfile/parser)
 
 
@@ -275,7 +275,7 @@
     (dotimes (n count (nreverse methods))
       (push (read-method stream constant-pool) methods))))
 
-(defun read-class-file (stream)
+(defun read-classfile (stream)
   (multiple-value-bind (magic correct?)
       (read-magic stream)
     (unless correct?

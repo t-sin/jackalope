@@ -22,7 +22,7 @@
                           #:classfile-methods
                           #:classfile-attributes
 
-                          #:read-class-file
+                          #:read-classfile
 
                           #:find-attribute
                           #:find-field
@@ -49,7 +49,7 @@
            #:classfile-fields
            #:classfile-methods
            #:classfile-attributes
-           #:read-class-file
+           #:read-classfile
 
            #:find-attribute
            #:find-field
