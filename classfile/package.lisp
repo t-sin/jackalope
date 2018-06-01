@@ -2,6 +2,35 @@
 (defpackage #:jackalope-classfile
   (:use #:cl)
   (:shadowing-import-from #:jackalope-classfile/classfile/classfile
+                          #:attribute
+                          #:attribute-name
+                          #:constant-value
+                          #:constant-value-index
+                          #:code
+                          #:code-max-stack
+                          #:code-max-locals
+                          #:code-code
+                          #:code-exception-table
+                          #:code-attrs
+                          #:stack-map-table
+                          #:stack-map-table-frame
+                          #:exception
+                          #:exception-table
+                          #:inner-class
+                          #:inner-class-classes
+                          #:enclosing-method
+                          #:enclosing-method-class-idx
+                          #:enclosing-method-method-idx
+                          #:synthetic
+                          #:signature
+                          #:signature-index
+                          #:source-file
+                          #:source-file-index
+                          #:source-debug-extension
+                          #:source-debug-extensions
+                          #:line-number-table
+                          #:line-number-table-table
+
                           #:method
                           #:make-method
                           #:method-access-flags
@@ -26,7 +55,36 @@
                           #:find-attribute
                           #:find-field
                           #:find-method)
-  (:export #:method
+  (:export #:attribute
+           #:attribute-name
+           #:constant-value
+           #:constant-value-index
+           #:code
+           #:code-max-stack
+           #:code-max-locals
+           #:code-code
+           #:code-exception-table
+           #:code-attrs
+           #:stack-map-table
+           #:stack-map-table-frame
+           #:exception
+           #:exception-table
+           #:inner-class
+           #:inner-class-classes
+           #:enclosing-method
+           #:enclosing-method-class-idx
+           #:enclosing-method-method-idx
+           #:synthetic
+           #:signature
+           #:signature-index
+           #:source-file
+           #:source-file-index
+           #:source-debug-extension
+           #:source-debug-extensions
+           #:line-number-table
+           #:line-number-table-table
+
+           #:method
            #:make-method
            #:method-access-flags
            #:method-name
