@@ -2,6 +2,7 @@
 (defpackage #:jackalope-disassemble/disassemble/format
   (:use #:cl)
   (:shadowing-import-from #:jackalope-classfile
+                          #:code-code
                           #:method-access-flags
                           #:method-name
                           #:method-descriptor
@@ -28,7 +29,7 @@
   (format cl:*standard-output* ".~a~%" (method-name method))
   (format cl:*standard-output* "  ~a~%" (method-descriptor method))
   (format cl:*standard-output* "  ~{~a~^ ~}~%" (method-access-flags method))
-  (format-bytecode (disassemble (getf (find-attribute "Code" (method-attributes method)) :code))))
+  (format-bytecode (disassemble (code-code (find-attribute "Code" (method-attributes method))))))
 
 (defun format-classfile (classfile)
   )
