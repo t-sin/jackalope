@@ -12,4 +12,4 @@ Jackalope is a set of JVM tools written in Common Lisp. This is written with ref
 
 ## License
 
-TBD
+This project *Jackalpe* is licensed under the Lisp GNU Lesser General Public License. For details, see [LICENSE.txt].
